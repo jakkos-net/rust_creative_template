@@ -1,5 +1,7 @@
 run:
-    cargo run -j-2 --profile mid
+    cargo run -j6 --profile mid
 
 web:
-    cargo run -j-2 --release --target wasm32-unknown-unknown
+    cargo build --release --target wasm32-unknown-unknown -Zbuild-std=std,panic_abort
+    wasm-bindgen --out-dir ./docs/ --target web ./target/wasm32-unknown-unknown/release/sonars.wasm --split-linked-modules
+    (cd docs && ./server.py)
